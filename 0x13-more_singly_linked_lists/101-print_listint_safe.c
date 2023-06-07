@@ -2,6 +2,9 @@
 #include "lists.h"
 #include <stdio.h>
 
+size_t looped_listint_len(const listint_t *head);
+size_t print_listint_safe(const listint_t *head);
+
 /**
  * looped_listint_len - Counts the number of unique nodes
  * in a looped listint_t linked list.
@@ -12,24 +15,75 @@
  */
 size_t looped_listint_len(const listint_t *head)
 {
-	const listint_t *current = head;
-	size_t count = 0;
+	const listint_t *face, *back;
+	size_t nodes = 1;
 
-	while (current != NULL)
+	if (head == NULL || head->next == NULL)
+		return (0);
+
+	face = head->next;
+	back = (head->next)->next;
+
+	while (back)
 	{
-		printf("[%p] %d\n", (void *)current, current->n);
-		count++;
-
-		if (current->next >= current)
+		if (face == back)
 		{
-			printf("-> [%p] %d\n", (void *)current->next, current->next->n);
-			printf("-> [%p] %d\n", (void *)current->next->next, current->next->next->n);
-			exit(98);
+			face = head;
+			while (face != back)
+			{
+				nodes++;
+				face = face->next;
+				back = back->next;
+			}
+
+			face = face->next;
+			while (face != back)
+			{
+				nodes++;
+				face = face->next;
+			}
+
+			return (nodes);
 		}
 
-
-		current = current->next;
+		face = face->next;
+		back = (back->next)->next;
 	}
 
-	return (count);
+	return (0);
+}
+
+/**
+ * print_listint_safe - Prints a listint_t list safely.
+ * @head: A pointer to the head of the listint_t list.
+ *
+ * Return: The number of nodes in the list.
+ */
+size_t print_listint_safe(const listint_t *head)
+{
+	size_t nodes, index = 0;
+
+	nodes = looped_listint_len(head);
+
+	if (nodes == 0)
+	{
+		for (; head != NULL; nodes++)
+		{
+			printf("[%p] %d\n", (void *)head, head->n);
+			head = head->next;
+		}
+	}
+
+	else
+	{
+		for (index = 0; index < nodes; index++)
+		{
+			printf("[%p] %d\n", (void *)head, head->n);
+			head = head->next;
+		}
+
+		printf("-> [%p] %d\n", (void *)head, head->n);
+	}
+
+	return (nodes);
 }
