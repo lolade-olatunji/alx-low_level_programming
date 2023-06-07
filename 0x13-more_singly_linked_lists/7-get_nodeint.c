@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "lists.h"
 
 /**
@@ -10,15 +9,15 @@
  */
 listint_t *get_nodeint_at_index(listint_t *head, unsigned int index)
 {
-	listint_t *current = head;
-	unsigned int count = 0;
+	unsigned int x = 0;
+	listint_t *count = head;
 
-	while (currrent && count < index)
+	while (count && x < index)
 	{
-		current = current->next;
-		count++;
-
+		count = count->next;
+		x++;
 	}
 
-	return (NULL);
+	return (count ? count : NULL);
+
 }
