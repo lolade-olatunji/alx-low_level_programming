@@ -15,8 +15,8 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	ssize_t wri;
 	ssize_t rea;
 
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
+	df = open(filename, O_RDONLY);
+	if (df == -1)
 		return (0);
 	buf = malloc(sizeof(char) * letters);
 	rea = read(df, buf, letters);
